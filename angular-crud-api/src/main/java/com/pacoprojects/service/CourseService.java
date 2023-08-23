@@ -20,9 +20,9 @@ public class CourseService {
         return courseRepository.findAll();
     }
 
-    public void saveCourse(@NonNull Course course) {
+    public Course createCourse(@NonNull Course course) {
         try {
-            courseRepository.save(course);
+            return courseRepository.save(course);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }

@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -21,7 +22,8 @@ public class CourseController {
     }
 
     @PostMapping
-    public void saveCourse(@RequestBody @NonNull Course course) {
-        courseService.saveCourse(course);
+    public ResponseEntity<Void> createCourse(@RequestBody @NonNull Course course) {
+        final String resourcePath = "/api/courses/" + courseService.createCourse(course).getId();
+        return ResponseEntity.created(URI.create(resourcePath)).build();
     }
 }
