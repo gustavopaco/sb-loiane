@@ -21,9 +21,20 @@ public class CourseController {
         return ResponseEntity.ok(courseService.getCourses());
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Course> getCourse(@PathVariable @NonNull Long id) {
+        return ResponseEntity.ok(courseService.getCourse(id));
+    }
+
     @PostMapping
     public ResponseEntity<Void> createCourse(@RequestBody @NonNull Course course) {
-        final String resourcePath = "/api/courses/" + courseService.createCourse(course).getId();
-        return ResponseEntity.created(URI.create(resourcePath)).build();
+        final String RESOURCE_PATH = "/api/courses/" + courseService.createCourse(course).getId();
+        return ResponseEntity.created(URI.create(RESOURCE_PATH)).build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> updateCourse(@PathVariable @NonNull Long id, @RequestBody @NonNull Course course) {
+        courseService.updateCourse(id, course);
+        return ResponseEntity.noContent().build();
     }
 }
