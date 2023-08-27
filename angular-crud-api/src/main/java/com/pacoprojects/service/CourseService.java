@@ -1,5 +1,6 @@
 package com.pacoprojects.service;
 
+import com.pacoprojects.constants.Constants;
 import com.pacoprojects.model.Course;
 import com.pacoprojects.repository.CourseRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +23,7 @@ public class CourseService {
 
     public Course getCourse(@NonNull Long id) {
         return courseRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Course not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, Constants.MSG_COURSE_NOT_FOUND + id));
     }
 
     public Course createCourse(@NonNull Course course) {
@@ -35,7 +36,7 @@ public class CourseService {
 
     public void updateCourse(@NonNull Long id, @NonNull Course course) {
         if (!courseRepository.existsById(id)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Course not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, Constants.MSG_COURSE_NOT_FOUND + id);
         }
         courseRepository.save(course);
     }
@@ -43,7 +44,7 @@ public class CourseService {
     public void deleteCourse(Long id) {
         courseRepository.findById(id)
                 .ifPresentOrElse(courseRepository::delete, () -> {
-                    throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Course not found");
+                    throw new ResponseStatusException(HttpStatus.NOT_FOUND, Constants.MSG_COURSE_NOT_FOUND + id);
                 });
     }
 }
