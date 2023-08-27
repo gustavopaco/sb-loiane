@@ -1,11 +1,11 @@
 package com.pacoprojects.service;
 
-import com.pacoprojects.constants.Constants;
+import com.pacoprojects.exception.RecordNotFoundException;
 import com.pacoprojects.model.Course;
 import com.pacoprojects.repository.CourseRepository;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -21,12 +21,12 @@ public class CourseService {
         return courseRepository.findAll();
     }
 
-    public Course getCourse(@NonNull Long id) {
+    public Course getCourse(@NotNull Long id) {
         return courseRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, Constants.MSG_COURSE_NOT_FOUND + id));
+                .orElseThrow(() -> new RecordNotFoundException(id));
     }
 
-    public Course createCourse(@NonNull Course course) {
+    public Course createCourse(@NotNull Course course) {
         try {
             return courseRepository.save(course);
         } catch (Exception e) {
@@ -34,17 +34,17 @@ public class CourseService {
         }
     }
 
-    public void updateCourse(@NonNull Long id, @NonNull Course course) {
+    public void updateCourse(@NotNull Long id, @NotNull Course course) {
         if (!courseRepository.existsById(id)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, Constants.MSG_COURSE_NOT_FOUND + id);
+            throw new RecordNotFoundException(id);
         }
         courseRepository.save(course);
     }
 
-    public void deleteCourse(Long id) {
+    public void deleteCourse(@NotNull Long id) {
         courseRepository.findById(id)
                 .ifPresentOrElse(courseRepository::delete, () -> {
-                    throw new ResponseStatusException(HttpStatus.NOT_FOUND, Constants.MSG_COURSE_NOT_FOUND + id);
+                    throw new RecordNotFoundException(id);
                 });
     }
 }
