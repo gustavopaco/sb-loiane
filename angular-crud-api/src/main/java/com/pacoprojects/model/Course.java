@@ -5,7 +5,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
-import org.hibernate.proxy.HibernateProxy;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import java.util.Objects;
 
@@ -15,6 +16,8 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "courses")
+@SQLDelete(sql = "UPDATE courses SET status = 'DELETED' WHERE id = ?")
+@Where(clause = "status <> 'DELETED'")
 @Entity
 public class Course {
     @Id
@@ -39,6 +42,10 @@ public class Course {
     @ToString.Exclude
     @NotNull(message = "Categoria é obrigatória")
     private CourseCategory courseCategory;
+
+    @Column(name = "status", length = 10, nullable = false)
+    @NotBlank(message = "Status é obrigatório")
+    private String status = "ACTIVE";
 
     @Override
     public boolean equals(Object o) {
