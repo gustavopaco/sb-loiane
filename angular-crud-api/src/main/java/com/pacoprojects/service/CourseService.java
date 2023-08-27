@@ -39,4 +39,11 @@ public class CourseService {
         }
         courseRepository.save(course);
     }
+
+    public void deleteCourse(Long id) {
+        courseRepository.findById(id)
+                .ifPresentOrElse(courseRepository::delete, () -> {
+                    throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Course not found");
+                });
+    }
 }

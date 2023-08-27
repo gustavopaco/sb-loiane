@@ -20,7 +20,7 @@ public class CourseCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "course_categories_gen")
     @SequenceGenerator(name = "course_categories_gen", sequenceName = "course_categories_seq", allocationSize = 1)
-    @Column(name = "id")
+    @Column(name = "id", updatable = false)
     private Long id;
 
     @Column(name = "name", nullable = false, length = 10)
