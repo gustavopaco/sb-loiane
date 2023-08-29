@@ -1,5 +1,7 @@
 package com.pacoprojects.model;
 
+import com.pacoprojects.enums.Status;
+import com.pacoprojects.enums.converter.StatusConverter;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -16,8 +18,8 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "courses")
-@SQLDelete(sql = "UPDATE courses SET status = 'DELETED' WHERE id = ?")
-@Where(clause = "status <> 'DELETED'")
+@SQLDelete(sql = "UPDATE courses SET status = 'Deletado' WHERE id = ?")
+@Where(clause = "status <> 'Deletado'")
 @Entity
 public class Course {
     @Id
@@ -44,8 +46,9 @@ public class Course {
     private CourseCategory courseCategory;
 
     @Column(name = "status", length = 10, nullable = false)
+    @Convert(converter = StatusConverter.class)
     @NotBlank(message = "Status é obrigatório")
-    private String status = "ACTIVE";
+    private Status status = Status.ACTIVE;
 
     @Override
     public boolean equals(Object o) {
