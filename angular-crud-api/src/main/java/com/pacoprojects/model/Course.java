@@ -10,7 +10,9 @@ import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
+import java.util.LinkedHashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -38,7 +40,7 @@ public class Course {
     @Size(min = 3, max = 255, message = "Descrição deve ter entre 3 e 255 caracteres")
     private String description;
 
-    @ManyToOne
+    @ManyToOne(targetEntity = CourseCategory.class)
     @JoinColumn(name = "course_category_id", referencedColumnName = "id", nullable = false,
             foreignKey = @ForeignKey(name = "courses_course_category_id_fk", value = ConstraintMode.CONSTRAINT))
     @ToString.Exclude
@@ -49,6 +51,12 @@ public class Course {
     @Convert(converter = StatusConverter.class)
     @NotBlank(message = "Status é obrigatório")
     private Status status = Status.ACTIVE;
+
+    @OneToMany(mappedBy = "course", targetEntity = Lesson.class, fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
+    @NotNull(message = "Aulas são obrigatórias")
+    private Set<Lesson> lessons = new LinkedHashSet<>();
 
     @Override
     public boolean equals(Object o) {

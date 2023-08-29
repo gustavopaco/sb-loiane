@@ -4,7 +4,7 @@ import com.pacoprojects.dto.CourseDto;
 import com.pacoprojects.model.Course;
 import org.mapstruct.*;
 
-@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING)
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING, collectionMappingStrategy = CollectionMappingStrategy.ADDER_PREFERRED)
 public interface CourseMapper {
     Course toEntity(CourseDto courseDto);
 
