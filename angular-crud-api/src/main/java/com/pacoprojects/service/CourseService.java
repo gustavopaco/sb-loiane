@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -21,7 +20,7 @@ public class CourseService {
     private final CourseMapper courseMapper;
 
     public List<CourseDto> getCourses() {
-        return courseRepository.findAll().stream().map(courseMapper::toDto).collect(Collectors.toList());
+        return courseRepository.findAll().stream().map(courseMapper::toDto).toList();
     }
 
     public CourseDto getCourse(@NotNull Long id) {
