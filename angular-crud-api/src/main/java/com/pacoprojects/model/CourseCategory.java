@@ -2,8 +2,9 @@ package com.pacoprojects.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.*;
-import org.hibernate.proxy.HibernateProxy;
 
 import java.util.LinkedHashSet;
 import java.util.Objects;
@@ -24,6 +25,8 @@ public class CourseCategory {
     private Long id;
 
     @Column(name = "name", nullable = false, length = 10)
+    @NotBlank(message = "Nome é obrigatório")
+    @Size(min = 3, max = 10, message = "Nome deve ter entre 3 e 10 caracteres")
     private String name;
 
     @JsonIgnore

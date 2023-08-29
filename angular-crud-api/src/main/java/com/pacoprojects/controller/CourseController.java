@@ -1,6 +1,6 @@
 package com.pacoprojects.controller;
 
-import com.pacoprojects.model.Course;
+import com.pacoprojects.dto.CourseDto;
 import com.pacoprojects.service.CourseService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -21,24 +21,24 @@ public class CourseController {
     private final CourseService courseService;
 
     @GetMapping
-    public ResponseEntity<List<Course>> getCourses() {
+    public ResponseEntity<List<CourseDto>> getCourses() {
         return ResponseEntity.ok(courseService.getCourses());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Course> getCourse(@PathVariable @NotNull @Positive Long id) {
+    public ResponseEntity<CourseDto> getCourse(@PathVariable @NotNull @Positive Long id) {
         return ResponseEntity.ok(courseService.getCourse(id));
     }
 
     @PostMapping
-    public ResponseEntity<Void> createCourse(@RequestBody @Valid @NotNull Course course) {
-        final String RESOURCE_PATH = "/api/courses/" + courseService.createCourse(course).getId();
+    public ResponseEntity<Void> createCourse(@RequestBody @Valid @NotNull CourseDto course) {
+        final String RESOURCE_PATH = "/api/courses/" + courseService.createCourse(course).id();
         return ResponseEntity.created(URI.create(RESOURCE_PATH)).build();
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Void> updateCourse(@PathVariable @NotNull @Positive Long id,
-                                             @RequestBody @Valid @NotNull Course course) {
+                                             @RequestBody @Valid @NotNull CourseDto course) {
         courseService.updateCourse(id, course);
         return ResponseEntity.noContent().build();
     }
