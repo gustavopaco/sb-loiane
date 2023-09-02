@@ -34,6 +34,16 @@ public class CourseCategory {
     @ToString.Exclude
     private Set<Course> courses = new LinkedHashSet<>();
 
+    public void addCourse(Course course) {
+        courses.add(course);
+        course.setCourseCategory(this);
+    }
+
+    public void removeCourse(Course course) {
+        courses.remove(course);
+        course.setCourseCategory(null);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

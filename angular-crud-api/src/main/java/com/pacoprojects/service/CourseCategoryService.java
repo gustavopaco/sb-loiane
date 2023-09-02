@@ -1,5 +1,6 @@
 package com.pacoprojects.service;
 
+import com.pacoprojects.exception.RecordNotFoundException;
 import com.pacoprojects.model.CourseCategory;
 import com.pacoprojects.repository.CourseCategoryRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,5 +15,9 @@ public class CourseCategoryService {
 
     public List<CourseCategory> getAllCourseCategories() {
         return courseCategoryRepository.findAll();
+    }
+
+    public CourseCategory getCourseCategory(Long id) {
+        return courseCategoryRepository.findById(id).orElseThrow(() -> new RecordNotFoundException(id));
     }
 }

@@ -49,7 +49,7 @@ public class Course {
 
     @Column(name = "status", length = 10, nullable = false)
     @Convert(converter = StatusConverter.class)
-    @NotBlank(message = "Status é obrigatório")
+    @NotNull(message = "Status é obrigatório")
     private Status status = Status.ACTIVE;
 
     @OneToMany(mappedBy = "course", targetEntity = Lesson.class, fetch = FetchType.LAZY,
@@ -57,6 +57,11 @@ public class Course {
     @ToString.Exclude
     @NotNull(message = "Aulas são obrigatórias")
     private Set<Lesson> lessons = new LinkedHashSet<>();
+
+    public void addLesson(Lesson lesson) {
+        lessons.add(lesson);
+        lesson.setCourse(this);
+    }
 
     @Override
     public boolean equals(Object o) {

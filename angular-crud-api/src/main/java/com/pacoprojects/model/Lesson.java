@@ -43,11 +43,11 @@ public class Lesson {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Lesson lesson)) return false;
-        return Objects.equals(getId(), lesson.getId());
+        return Objects.equals(getId(), lesson.getId()) && Objects.equals(getName(), lesson.getName());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId());
+        return Objects.hash(getId(), getName());
     }
 }
